@@ -14,10 +14,15 @@ class User < ApplicationRecord
   
   # プロフィール画像取得メソッド
   def get_profile_image(width, height)
-    unless profile_image.attached?
-      file_path = Rails.root.join('app/assets/images/no_image.jpg')
-      profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
+    if profile_image.attached?
+      begin
+        profile_image.variant(resize_to_limit: [width, height]).processed
+      rescue => e
+        Rails.logger.error "Image processing failed: #{e.message}"
+        nil
+      end
+    else
+      nil
     end
-    profile_image.variant(resize_to_limit: [width, height]).processed
   end
 end

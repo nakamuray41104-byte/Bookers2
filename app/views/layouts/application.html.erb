@@ -43,8 +43,13 @@
                   <% end %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "nav-link text-light" %>
+                  <a href="<%= destroy_user_session_path %>" data-method="delete" class="nav-link text-light">
+                    <i class="fas fa-sign-out-alt"></i> Log out
+                  </a>
                 </li>
+
+
+
               <% else %>
                 <li class="nav-item">
                   <%= link_to root_path, class: "nav-link text-light" do %>
